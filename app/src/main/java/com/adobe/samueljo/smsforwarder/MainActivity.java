@@ -43,15 +43,20 @@ public class MainActivity extends AppCompatActivity {
         textView = (TextView)findViewById(R.id.textView);
         searchText = (TextView)findViewById(R.id.search);
         SharedPreferences prefs = getSharedPreferences(CONTACTS, Context.MODE_PRIVATE);
-        textView.setText(prefs.getString("contacts", null).replace(",","\n"));
-        searchText.setText(prefs.getString("searchString", null));
+        textView.setText(prefs.getString("contacts", "").replace(",","\n"));
+        searchText.setText(prefs.getString("searchString", ""));
     }
 
     public void addToDatabase(View v){
         SharedPreferences prefs = getSharedPreferences(CONTACTS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         String temp = prefs.getString("contacts", null);
-        Set<String> set = new HashSet<String>(Arrays.asList(temp.split(",")));
+        Set<String> set;
+        set = new HashSet<String>();
+        if(temp != null)
+            set = new HashSet<String>(Arrays.asList(temp.split(",")));
+        else
+            temp = "";
         if(temp.length() == 0){
             temp += editText.getText().toString();
         }

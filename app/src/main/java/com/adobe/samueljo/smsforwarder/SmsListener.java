@@ -48,12 +48,13 @@ public class SmsListener extends BroadcastReceiver {
                     String SENT = "SMS_SENT";
 
                     SharedPreferences prefs = context.getSharedPreferences("Contacts", Context.MODE_PRIVATE);
-                    List<String> myList = new ArrayList<String>(Arrays.asList(prefs.getString("contacts",null).split(",")));
-                    for( int i=0; i<myList.size(); i++){
-                        sentPI = PendingIntent.getBroadcast(context, 0,new Intent(SENT), 0);
-                        smsManager.sendTextMessage(myList.get(i), null, message, sentPI, null);
+                    if(message.contains(prefs.getString("searchString","www.starindiaresearch.com"))) {
+                        List<String> myList = new ArrayList<String>(Arrays.asList(prefs.getString("contacts",null).split(",")));
+                        for( int i=0; i<myList.size(); i++){
+                            sentPI = PendingIntent.getBroadcast(context, 0,new Intent(SENT), 0);
+                            smsManager.sendTextMessage(myList.get(i), null, message, sentPI, null);
+                        }
                     }
-
                 } // end for loop
             } // bundle is null
 
